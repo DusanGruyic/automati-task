@@ -1,4 +1,4 @@
-export const STATUS_CODES = {
+export const STATUS = {
   OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
@@ -31,4 +31,4 @@ export const URLS = {
   PROFILE: "demoqa.com/profile",
 };
 
-export default { URLS, ENDPOINTS, METHODS, STATUS_CODES };
+export default { URLS, ENDPOINTS, METHODS, STATUS };
