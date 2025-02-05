@@ -1,8 +1,12 @@
-import { expect } from "@playwright/test";
-import { ENDPOINTS, REGISTER_PAYLOAD } from "../../../../fixtures/http";
+import { BaseApi } from "./baseApi";
+import { ENDPOINTS } from "../../../../fixtures/http";
 
-export class RegisterAPI {
+export class RegisterApi extends BaseApi {
   constructor(page) {
-    this.page = page;
+    super(page);
+    this.endpoint = ENDPOINTS.REGISTER;
+  }
+  async register(payload) {
+    return await this.post(this.endpoint, payload);
   }
 }

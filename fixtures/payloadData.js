@@ -6,7 +6,7 @@ export const REGISTER_PAYLOAD = {
 };
 
 export const LOGIN_PAYLOAD = {
-  username: "user1",
+  userName: "user1",
   password: "Test123!",
 };
 
@@ -30,4 +30,15 @@ export const STUDENT_FORM = {
   ADDRESS: "test address",
   STATE: "NCR",
   CITY: "Delhi",
+};
+
+export const INVALID_USER = {
+  api: {
+    login: {
+      unregisteredUser: {
+        userName: "aaaaaaaa",
+        password: "aaaaaaaaa",
+      },
+    },
+  },
 };

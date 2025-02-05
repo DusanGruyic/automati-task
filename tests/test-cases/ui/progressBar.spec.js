@@ -39,4 +39,24 @@ test.describe("Progress Bar Tests", () => {
     });
     await progressBar.resetProgress();
   });
+
+  test("Assert progress can be paused and resumed", async ({ progressBar }) => {
+    await progressBar.startProgress();
+    await expect(progressBar.startButton).toHaveText("Stop");
+
+    await progressBar.startButton.click();
+    await expect(progressBar.startButton).toHaveText("Start");
+
+    const pausedValue = await progressBar.progressBar.textContent();
+
+    await progressBar.page.waitForTimeout(2000);
+
+    await progressBar.startButton.click();
+    await expect(progressBar.startButton).toHaveText("Stop");
+
+    await progressBar.page.waitForTimeout(2000);
+
+    const resumedValue = await progressBar.progressBar.textContent();
+    expect(resumedValue).not.toBe(pausedValue);
+  });
 });

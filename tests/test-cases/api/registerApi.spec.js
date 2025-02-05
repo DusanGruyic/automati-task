@@ -1,17 +1,43 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { RegisterApi } from "../../../tests/modules/api/auth/registerApi.js";
 import { REGISTER_PAYLOAD } from "../../../fixtures/payloadData";
-import { RegisterAPI } from "../../modules/api/auth/registerApi";
 
-test.describe("Registration API Tests", () => {
-  let registerAPI;
+test.describe("Register via Api", () => {
+  let registerApi;
 
-  test.beforeEach(async ({ request }) => {
-    registerAPI = new RegisterAPI(request, API_BASE_URL);
+  test.beforeEach("Instantiate class", async ({ page }) => {
+    registerApi = new RegisterApi(page);
   });
 
-  test("Successful registration with valid data", async () => {
-    const payload = registerAPI.generateUniquePayload();
-    const response = await registerAPI.register(payload);
-    expect(response.status()).toBe(201);
+  test("Should register a new user", async () => {
+    const payload = {
+      ...REGISTER_PAYLOAD,
+      userName: `user${Date.now()}`,
+    };
+    const response = await registerApi.register(payload);
+    expect(response).toHaveProperty("userID");
+    expect(response).toHaveProperty("username", payload.userName);
+  });
+
+  test("Register user with existing username", async () => {
+    const payload = {
+      ...REGISTER_PAYLOAD,
+      userName: "user1",
+    };
+    const response = await registerApi.register(payload);
+    expect(response).toHaveProperty("code");
+    expect(response).toHaveProperty("message", "User exists!");
+  });
+
+  test("Register user with missing required fields", async () => {
+    const payload = {
+      userName: `user${Date.now()}`,
+    };
+    const response = await registerApi.register(payload);
+    expect(response).toHaveProperty("code");
+    expect(response).toHaveProperty(
+      "message",
+      "UserName and Password required."
+    );
   });
 });

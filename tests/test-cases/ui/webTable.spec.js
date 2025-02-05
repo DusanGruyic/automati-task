@@ -50,6 +50,11 @@ test.describe("Web table tests", () => {
     await webTables.fillRegistrationForm();
     await webTables.fillEmail.fill("invalidEmail");
     await webTables.submitTable();
-    expect(await webTables.fillEmail).toHaveValue("type", "email");
+
+    const emailInput = await webTables.fillEmail;
+    const validationMessage = await emailInput.evaluate(
+      (node) => node.validationMessage
+    );
+    expect(validationMessage).toBe("Please match the requested format.");
   });
 });

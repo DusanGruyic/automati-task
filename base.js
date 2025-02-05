@@ -1,8 +1,11 @@
 import { test as baseTest } from "@playwright/test";
 import { WebTables } from "./tests/modules/ui/webTables.js";
 import { RegisterAPI } from "./tests/modules/api/auth/registerApi.js";
+import { LoginApi } from "./tests/modules/api/auth/loginApi.js";
 import { PracticeForm } from "./tests/modules/ui/practiceForm.js";
 import { ProgressBar } from "./tests/modules/ui/progressBar.js";
+import { BaseApi } from "./tests/modules/api/auth/baseApi.js";
+import { BooksApi } from "./tests/modules/api/auth/booksApi.js";
 
 const testPages = baseTest.extend({
   registerApi: async ({ page }, use) => {
@@ -19,6 +22,15 @@ const testPages = baseTest.extend({
   },
   progressBar: async ({ page }, use) => {
     await use(new ProgressBar(page));
+  },
+  baseApi: async ({ page }, use) => {
+    await use(new BaseApi(page));
+  },
+  booksApi: async ({ page }, use) => {
+    await use(new BooksApi(page));
+  },
+  loginApi: async ({ page }, use) => {
+    await use(new LoginApi(page));
   },
 });
 
